@@ -5,6 +5,12 @@
 // @description  keep eye on lecture
 // @author       Lavi
 // @match        http://yjsy.buct.edu.cn:8080/pyxx/txhdgl/hdlist.aspx?xh=*
+// @match        https://yjsy-8080.w.buct.edu.cn/pyxx/txhdgl/hdlist.aspx?xh=*
+// @homepageURL  https://github.com/Lav-i/browser-script
+// @supportURL   https://github.com/Lav-i/browser-script/issues
+// @downloadURL  https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.js
+// @updateURL    https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.js
+// @run-at document-end
 // @grant        none
 // ==/UserScript==
 
@@ -59,14 +65,14 @@
                     audio.setAttribute('src', 'http://data.huiyi8.com/2017/gha/03/17/1702.mp3')
                     sessionStorage.removeItem('keepEyeOnThis')
                 } else {
-                    document.getElementById('cmdRefresh').click()
+                    location.replace(location.href)
                 }
             }, timeInterval)
         }
 
         function startWatching() {
             sessionStorage.setItem('keepEyeOnThis', 'yeap')
-            document.getElementById('cmdRefresh').click()
+            location.replace(location.href)
         }
 
         function stopWatching() {
