@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Keep Eye On You
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  keep eye on lecture
 // @author       Lavi
 // @match        http://yjsy.buct.edu.cn:8080/pyxx/txhdgl/hdlist.aspx?xh=*
 // @match        https://yjsy-8080.w.buct.edu.cn/pyxx/txhdgl/hdlist.aspx?xh=*
 // @homepageURL  https://github.com/Lav-i/browser-script
 // @supportURL   https://github.com/Lav-i/browser-script/issues
-// @downloadURL  https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.js
-// @updateURL    https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.js
+// @downloadURL  https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.user.js
+// @updateURL    https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.user.js
 // @run-at document-end
 // @grant        none
 // ==/UserScript==
