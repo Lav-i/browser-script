@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Keep Eye On You
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  keep eye on lecture
 // @author       Lavi
 // @match        http://yjsy.buct.edu.cn:8080/pyxx/txhdgl/hdlist.aspx?xh=*
@@ -10,7 +10,7 @@
 // @supportURL   https://github.com/Lav-i/browser-script/issues
 // @downloadURL  https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.user.js
 // @updateURL    https://raw.githubusercontent.com/Lav-i/browser-script/master/Keep%20Eye%20On%20You.user.js
-// @run-at document-end
+// @run-at       document-end
 // @grant        none
 // ==/UserScript==
 
@@ -18,14 +18,12 @@
     'use strict'
 
     window.onload = function () {
-        console.log('keep eye on this?')
-        console.log(sessionStorage.getItem('keepEyeOnThis') != null ? 'yeap' : 'nope')
 
         var model = document.getElementsByTagName('body')[0].appendChild(document.createElement('div'))
         var startBtn = model.appendChild(document.createElement('div'))
         var stopBtn = model.appendChild(document.createElement('div'))
         var audio = model.appendChild(document.createElement('audio'))
-        var timeInterval = 60000
+        var timer
 
         model.style.cssText = 'position: fixed;\
             top: 100px;\
@@ -51,32 +49,55 @@
         audio.setAttribute('autoplay', 'autoplay')
 
         if (sessionStorage.getItem('keepEyeOnThis') == 'yeap') {
-            setTimeout(function () {
-                var list = document.getElementById('dgData00').children[0].children
-                var isSucceed = false
-                for (var i = 1; i < list.length; i++) {
-                    var item = list[i].children
-                    if (parseInt(item[6].textContent) > parseInt(item[7].textContent)) {
-                        list[i].style.backgroundColor = 'red'
-                        isSucceed = true
-                    }
+            if (checkList()) {
+                audio.setAttribute('src', 'http://data.huiyi8.com/2017/gha/03/17/1702.mp3')
+                sessionStorage.removeItem('keepEyeOnThis')
+            } else {
+                var time = new Date().getMinutes()
+                var timeInterval = 5000
+                if (time > 2 && time < 57) {
+                    timeInterval = (57 - time) * 60 * 1000
                 }
-                if (isSucceed) {
-                    audio.setAttribute('src', 'http://data.huiyi8.com/2017/gha/03/17/1702.mp3')
-                    sessionStorage.removeItem('keepEyeOnThis')
-                } else {
-                    location.replace(location.href)
-                }
-            }, timeInterval)
+                fresh(timeInterval)
+            }
         }
 
         function startWatching() {
             sessionStorage.setItem('keepEyeOnThis', 'yeap')
-            location.replace(location.href)
+            fresh(0)
         }
 
         function stopWatching() {
             sessionStorage.removeItem('keepEyeOnThis')
+            clearTimeout(timer)
+            console.log('停止监控')
+        }
+
+        function fresh(time) {
+            if (time == 5000) {
+                console.log((time / 1000) + '秒后再次刷新')
+            } else {
+                console.log((time / 60 / 1000) + '分钟后再次刷新')
+            }
+            timer = setTimeout(function () {
+                location.replace(location.href)
+            }, time)
+        }
+
+        function checkList() {
+            console.log('正在监控')
+            var list = document.getElementById('dgData00').children[0].children
+            var isSucceed = false
+            for (var i = 1; i < list.length; i++) {
+                var item = list[i].children
+                if (parseInt(item[6].textContent) > parseInt(item[7].textContent)) {
+                    list[i].style.backgroundColor = 'green'
+                    isSucceed = true
+                } else {
+                    list[i].style.backgroundColor = 'red'
+                }
+            }
+            return isSucceed
         }
     }
 })()
